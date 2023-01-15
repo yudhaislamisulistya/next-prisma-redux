@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { fetchData } from "redux/actions/postsAction";
+import { deleteData, fetchData } from "redux/actions/postsAction";
 
 const Posts = () => {
 
@@ -16,6 +16,11 @@ const Posts = () => {
         dispatch(fetchData());
     }, []);
 
+    const handleClick = (e) => {
+        const id = e.target.id;
+        dispatch(deleteData(id));
+    }
+
     return (
         <div>
             <Link href={'/posts/add'}>
@@ -26,6 +31,8 @@ const Posts = () => {
                 <div key={post.id}>
                     <h3>{post.title}</h3>
                     <p>{post.content}</p>
+                    <p>{post.published ? 'Published' : 'Not Published'}</p>
+                    <button onClick={handleClick} id={post.id}>Delete</button>
                 </div>
             ))}
             <ToastContainer />
